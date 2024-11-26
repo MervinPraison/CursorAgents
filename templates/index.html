@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Todo App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Todo List</h1>
+        <form action="{{ url_for('add') }}" method="POST" class="add-form">
+            <input type="text" name="title" placeholder="Add a new task..." required>
+            <button type="submit">Add</button>
+        </form>
+        
+        <div class="todos">
+            {% for todo in todos %}
+            <div class="todo-item {% if todo.completed %}completed{% endif %}">
+                <div class="todo-content">
+                    <span class="todo-text">{{ todo.title }}</span>
+                    <span class="todo-date">{{ todo.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+                </div>
+                <div class="todo-actions">
+                    <a href="{{ url_for('toggle', id=todo.id) }}" class="toggle-btn">
+                        {% if todo.completed %}Undo{% else %}Complete{% endif %}
+                    </a>
+                    <a href="{{ url_for('delete', id=todo.id) }}" class="delete-btn">Delete</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html> 
